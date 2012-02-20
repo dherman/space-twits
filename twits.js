@@ -183,6 +183,7 @@ function play(context, width, height, images) {
         var firing = setInterval(function() {
             var newY = shot.y - 15;
             if (newY < 0) {
+                misfire();
                 shot.exit();
                 clearInterval(firing);
             } else if (alien.collidesWith(shot.x, newY, shot.width(), shot.height())) {
@@ -199,6 +200,11 @@ function play(context, width, height, images) {
                 shot.moveTo(shot.x, newY);
             }
         }, 30);
+    }
+    
+    function misfire() {
+        spaceShip.score();
+        document.getElementById("score").innerHTML -= 50;
     }
 
     function score() {
