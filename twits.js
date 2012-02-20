@@ -40,6 +40,7 @@ function Actor(scene, x, y) {
     this.scene = scene;
     this.x = x;
     this.y = y;
+    scene.register(this);
 }
 
 Actor.prototype.moveTo = function(x, y) {
@@ -157,10 +158,10 @@ function play(context, width, height, images) {
     var scene, spaceShip, alien;
 
     scene = new Scene(context, width, height, images);
-    scene.register(spaceShip = new SpaceShip(scene,
-                                             mid - images.spaceShip.width / 2,
-                                             height - images.spaceShip.height - 10));
-    scene.register(alien = newAlien());
+    spaceShip = new SpaceShip(scene,
+                              mid - images.spaceShip.width / 2,
+                              height - images.spaceShip.height - 10);
+    alien = newAlien();
     scene.draw();
 
     var moving;
@@ -177,7 +178,6 @@ function play(context, width, height, images) {
 
     function fire() {
         var shot = new Shot(scene, 0, 0);
-        scene.register(shot);
         shot.moveTo(spaceShip.x + (spaceShip.width() / 2) - (shot.width() / 2),
                     spaceShip.y - shot.height());
         var firing = setInterval(function() {
@@ -191,7 +191,7 @@ function play(context, width, height, images) {
                     score();
                     alien.exit();
                     clearInterval(moving);
-                    scene.register(alien = newAlien());
+                    alien = newAlien();
                 }
                 shot.exit();
                 clearInterval(firing);
